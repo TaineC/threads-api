@@ -9,6 +9,7 @@ var fileUpload = require('express-fileupload');
 var Product = require('./product-model');
 var Category = require('./category-model');
 var User = require('./user-model');
+var Review = require('./review-model');
 
 //setup database connection
 var connectionString = 'mongodb://ants:ants@cluster0-shard-00-00-5myjr.mongodb.net:27017,cluster0-shard-00-01-5myjr.mongodb.net:27017,cluster0-shard-00-02-5myjr.mongodb.net:27017/ants?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority';
@@ -38,6 +39,10 @@ router.get('/testing', (req, res) => {
 router.get('/products', (req, res) => {
 
 	Product.find()
+	.populate({
+		path:'reviews',
+		populate:'user'
+	})
 	.then((products) => {
 	    return res.json(products);
 	});
@@ -185,7 +190,28 @@ router.post('/upload', (req, res) => {
 	})
 	
 });
+//=== Review Product====
+router.post('/reviews', (req, res) => {
 
+	var review = new Review();
+	review.id = Date.now();
+	
+	var data = req.body;
+	Object.assign(review,data);
+	
+	review.save()
+	.then((review) => {
+	  	return res.json(review);
+	});
+});
+
+router.delete('/reviews/:id', (req, res) => {
+
+	Review.deleteOne({ id: req.params.id })
+	.then(() => {
+		return res.json('deleted');
+	});
+});
 
 app.use('/api', router);
 
