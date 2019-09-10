@@ -52,6 +52,10 @@ router.get('/products', (req, res) => {
 router.get('/products/:id', (req, res) => {
 
 	Product.findOne({id:req.params.id})
+	.populate({
+		path:'reviews',
+		populate:'user'
+	})
 	.then((product) => {
 	    return res.json(product);
 	});
