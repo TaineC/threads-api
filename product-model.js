@@ -11,7 +11,8 @@ const ProductSchema = new Schema(
     price:Number,
     cat_id: Number,
     user_id:Number,
-   
+    purchaser_id:Number,
+
   },
   { 
   	timestamps: true,

@@ -121,20 +121,21 @@ router.get('/users/:id', (req, res) => {
 
 
 	User.findOne({id:req.params.id})
+	.populate('purchases')
 	.then((user) => {
 	    return res.json(user);
 	});
 })
 
-router.get('/users/:id/products', (req, res) => {
+// router.get('/users/:id/products', (req, res) => {
 
 
-	Product.find({user_id:req.params.id})
-	.then((products) => {
-	    return res.json(products);
-	});
+// 	Product.find({user_id:req.params.id})
+// 	.then((products) => {
+// 	    return res.json(products);
+// 	});
 
-})
+// })
 
 router.post('/users', (req, res) => {
 

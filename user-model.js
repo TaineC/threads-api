@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var Product = require('./product-model');
 
 var UserSchema = new Schema(
   {
@@ -11,8 +12,17 @@ var UserSchema = new Schema(
     role:Number,
     location:String,
   },
-  { timestamps: true }
+  { 
+  	timestamps: true,
+  	toJSON: { virtuals: true }
+  }
 );
 
+UserSchema.virtual('purchases', {
+  ref: 'Product', // The model to use
+  localField: 'id', 
+  foreignField: 'purchaser_id', 
+  justOne: false,
+});
 
 module.exports = mongoose.model('User', UserSchema);
