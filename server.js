@@ -174,8 +174,8 @@ router.put('/users/:id', (req, res) => {
 });
 
 router.post('/authenticate', (req, res) => {
-	var {name,password} = req.body;
-	var credential = {name,password}
+	var {username,password} = req.body;
+	var credential = {username,password}
 	User.findOne(credential)
 	.then((user) => {
 	    return res.json(user);
