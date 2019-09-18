@@ -98,9 +98,31 @@ router.put('/products/:id', (req, res) => {
 
 });
 //===category===
-router.get('/category', (req, res) => {
+router.get('/categories', (req, res) => {
 
 	Category.find()
+	.then((categories) => {
+
+	    return res.json(categories);
+	});
+
+})
+
+// router.get('/categories/:id', (req, res) => {
+
+// 	Category.findOne({id:req.params.id})
+// 	.populate('products')
+// 	.then((category) => {
+
+// 	    return res.json(category);
+// 	});
+
+// })
+
+router.get('/categories/:name', (req, res) => {
+
+	Category.findOne({name:req.params.name})
+	.populate('products')
 	.then((category) => {
 
 	    return res.json(category);
