@@ -10,6 +10,7 @@ const ProductSchema = new Schema(
     photo:String,
     price:Number,
     cat_id: Number,
+    cat_name: String,
     user_id:Number,
     purchaser_id:Number,
 

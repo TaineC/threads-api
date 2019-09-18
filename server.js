@@ -108,9 +108,20 @@ router.get('/categories', (req, res) => {
 
 })
 
-router.get('/categories/:id', (req, res) => {
+// router.get('/categories/:id', (req, res) => {
 
-	Category.findOne({id:req.params.id})
+// 	Category.findOne({id:req.params.id})
+// 	.populate('products')
+// 	.then((category) => {
+
+// 	    return res.json(category);
+// 	});
+
+// })
+
+router.get('/categories/:name', (req, res) => {
+
+	Category.findOne({name:req.params.name})
 	.populate('products')
 	.then((category) => {
 

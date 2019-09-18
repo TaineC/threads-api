@@ -16,7 +16,7 @@ var TypeSchema = new Schema(
 TypeSchema.virtual('products', {
   ref: 'Product', // The model to use
   localField: 'id', 
-  foreignField: 'cat_id',
+  foreignField: 'cat_name',
   justOne: false,
 });
 
