@@ -133,6 +133,7 @@ router.get('/users/:id', (req, res) => {
 
 	User.findOne({id:req.params.id})
 	.populate('purchases')
+	.populate('products')
 	.then((user) => {
 	    return res.json(user);
 	});
@@ -142,6 +143,7 @@ router.get('/users/:id', (req, res) => {
 
 
 // 	Product.find({user_id:req.params.id})
+// 	.populate('Products')
 // 	.then((products) => {
 // 	    return res.json(products);
 // 	});
