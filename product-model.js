@@ -8,8 +8,10 @@ const ProductSchema = new Schema(
     name: String,
     description: String,
     photo:String,
+    photos:[String],
     price:Number,
     cat_id: Number,
+    cat_name: String,
     user_id:Number,
     purchaser_id:Number,
 
