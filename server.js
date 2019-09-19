@@ -40,7 +40,7 @@ router.get('/products', (req, res) => {
 
 	Product.find()
 	.populate({
-		path:'reviews',
+		path:'review',
 		populate:'user'
 	})
 	.then((products) => {
@@ -53,7 +53,7 @@ router.get('/products/:id', (req, res) => {
 
 	Product.findOne({id:req.params.id})
 	.populate({
-		path:'reviews',
+		path:'review',
 		populate:'user'
 	})
 	.then((product) => {
@@ -145,6 +145,7 @@ router.get('/users/:id', (req, res) => {
 	User.findOne({id:req.params.id})
 	.populate('purchases')
 	.populate('products')
+	.populate('reviews')
 	.then((user) => {
 	    return res.json(user);
 	});
