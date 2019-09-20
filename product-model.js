@@ -14,6 +14,7 @@ const ProductSchema = new Schema(
     cat_name: String,
     user_id:Number,
     purchaser_id:Number,
+    seller_id:Number,
 
   },
   { 

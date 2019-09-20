@@ -11,6 +11,7 @@ var UserSchema = new Schema(
     email: String,
     role:Number,
     location:String,
+    photo:String,
   },
   { 
   	timestamps: true,
@@ -27,7 +28,7 @@ UserSchema.virtual('purchases', {
 UserSchema.virtual('products',{
   ref: 'Product',
   localField:'id',
-  foreignField:'user_id',
+  foreignField:'seller_id',
   justOne: false,
 })
 
