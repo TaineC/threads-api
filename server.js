@@ -40,7 +40,7 @@ router.get('/products', (req, res) => {
 
 	Product.find()
 	.populate({
-		path:'reviews',
+		path:'review',
 		populate:'user'
 	})
 	.then((products) => {
@@ -53,7 +53,7 @@ router.get('/products/:id', (req, res) => {
 
 	Product.findOne({id:req.params.id})
 	.populate({
-		path:'reviews',
+		path:'review',
 		populate:'user'
 	})
 	.then((product) => {
@@ -145,6 +145,7 @@ router.get('/users/:id', (req, res) => {
 	User.findOne({id:req.params.id})
 	.populate('purchases')
 	.populate('products')
+	.populate('reviews')
 	.then((user) => {
 	    return res.json(user);
 	});
@@ -229,25 +230,36 @@ router.post('/uploads', (req, res) => {
 
 	console.log(uploadedFiles)
 
-	var promises = []
-	for(let i=0;i<uploadedFiles.length;i++){
-		let uploadedFile = uploadedFiles[i]
+	if(uploadedFiles.length>1){
+		var promises = []
+		for(let i=0;i<uploadedFiles.length;i++){
+			let uploadedFile = uploadedFiles[i]
 
-		let newName = Date.now() + '_' + uploadedFile.name;
-
-		let promise = new Promise(function(resolve, reject) {
-			uploadedFile.mv('public/'+ newName, function(){
-				resolve(newName);
-			})	  
+			let newName = Date.now() + '_' + uploadedFile.name;
+ 
+			let promise = new Promise(function(resolve, reject) {
+				uploadedFile.mv('public/'+ newName, function(){
+					resolve(newName);
+				})	  
+			})
+			promises.push(promise)
+			
+		}
+		// console.log(promises)
+		Promise.all(promises).then(function(fileNames) {
+			res.send(fileNames)
+			console.log(fileNames)
 		})
-		promises.push(promise)
-		
 	}
-	// console.log(promises)
-	Promise.all(promises).then(function(fileNames) {
-		res.send(fileNames)
-		console.log(fileNames)
-	})
+	else{
+		var newName = Date.now() + '_' + uploadedFiles.name;
+
+		uploadedFiles.mv('public/'+ newName, function(){
+		res.send(newName)
+		})
+	}
+
+	
 
 	
 });

@@ -32,4 +32,12 @@ UserSchema.virtual('products',{
   justOne: false,
 })
 
+
+UserSchema.virtual('purchases', {
+  ref: 'Product', // The model to use
+  localField: 'id', 
+  foreignField: 'purchaser_id', 
+  justOne: false,
+});
+
 module.exports = mongoose.model('User', UserSchema);
