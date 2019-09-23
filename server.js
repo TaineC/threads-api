@@ -225,18 +225,25 @@ router.post('/upload', (req, res) => {
 
 router.post('/uploads', (req, res) => {
 
-	var files = Object.values(req.files);
-	var uploadedFiles = files[0];
+	
 
-	console.log(uploadedFiles)
 
-	if(uploadedFiles.length>1){
+	if(req.files){
+		var files = Object.values(req.files)
+		var uploadedFiles = files[0];
+		uploadedFiles = Array.isArray(uploadedFiles) ? uploadedFiles : [uploadedFiles] //turning a single file to an array
+
 		var promises = []
+
+
 		for(let i=0;i<uploadedFiles.length;i++){
 			let uploadedFile = uploadedFiles[i]
 
 			let newName = Date.now() + '_' + uploadedFile.name;
- 
+
+			console.log(newName)
+			
+			// if(uploadedFiles.length>1){
 			let promise = new Promise(function(resolve, reject) {
 				uploadedFile.mv('public/'+ newName, function(){
 					resolve(newName);
@@ -245,22 +252,15 @@ router.post('/uploads', (req, res) => {
 			promises.push(promise)
 			
 		}
-		// console.log(promises)
+
 		Promise.all(promises).then(function(fileNames) {
 			res.send(fileNames)
-			console.log(fileNames)
-		})
-	}
-	else{
-		var newName = Date.now() + '_' + uploadedFiles.name;
-
-		uploadedFiles.mv('public/'+ newName, function(){
-		res.send(newName)
-		})
-	}
-
 	
-
+		})
+	}else{
+		res.send([])
+	}
+	
 	
 });
 
