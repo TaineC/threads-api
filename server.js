@@ -146,6 +146,14 @@ router.get('/users/:id', (req, res) => {
 	.populate('purchases')
 	.populate('products')
 	.populate('reviews')
+	.populate({
+		path:'sold',
+		match: { purchaser_id: {$ne: null}}
+	})
+	.populate({
+		path:'currentListings',
+		match: { purchaser_id: null}
+	})
 	.then((user) => {
 	    return res.json(user);
 	});

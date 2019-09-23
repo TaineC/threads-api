@@ -32,11 +32,16 @@ UserSchema.virtual('products',{
   justOne: false,
 })
 
-
-UserSchema.virtual('purchases', {
-  ref: 'Product', // The model to use
-  localField: 'id', 
-  foreignField: 'purchaser_id', 
+UserSchema.virtual('sold', {
+  ref: 'Product',
+  localField:'id',
+  foreignField:'seller_id',
+  justOne: false,
+});
+UserSchema.virtual('currentListings', {
+  ref: 'Product',
+  localField:'id',
+  foreignField:'seller_id',
   justOne: false,
 });
 
