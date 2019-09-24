@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var Product = require('./product-model');
+var Review = require('./review-model');
 
 var UserSchema = new Schema(
   {
@@ -25,6 +26,7 @@ UserSchema.virtual('purchases', {
   foreignField: 'purchaser_id', 
   justOne: false,
 });
+// products based on seller
 UserSchema.virtual('products',{
   ref: 'Product',
   localField:'id',
@@ -33,10 +35,10 @@ UserSchema.virtual('products',{
 })
 
 
-UserSchema.virtual('purchases', {
-  ref: 'Product', // The model to use
+UserSchema.virtual('receivedReviews', {
+  ref: 'Review', // The model to use
   localField: 'id', 
-  foreignField: 'purchaser_id', 
+  foreignField: 'seller_id', 
   justOne: false,
 });
 
