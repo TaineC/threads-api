@@ -10,9 +10,8 @@ var UserSchema = new Schema(
     username: String,
     password: String,
     email: String,
-    role:Number,
-    location:String,
     photo:String,
+    date:String,
   },
   { 
   	timestamps: true,
