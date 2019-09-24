@@ -38,7 +38,18 @@ UserSchema.virtual('products',{
 UserSchema.virtual('receivedReviews', {
   ref: 'Review', // The model to use
   localField: 'id', 
-  foreignField: 'seller_id', 
+  foreignField: 'seller_id', });
+
+UserSchema.virtual('sold', {
+  ref: 'Product',
+  localField:'id',
+  foreignField:'seller_id',
+  justOne: false,
+});
+UserSchema.virtual('currentListings', {
+  ref: 'Product',
+  localField:'id',
+  foreignField:'seller_id',
   justOne: false,
 });
 
