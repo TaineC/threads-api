@@ -80,8 +80,9 @@ router.delete('/products/:id', (req, res) => {
 
 	Product.deleteOne({ id: req.params.id })
 	.then(() => {
-		return res.json('deleted');
-	});
+		return	Review.deleteOne({ prod_id: req.params.id })	
+	})
+	.then(()=>res.json('deleted'))
 });
 
 router.put('/products/:id', (req, res) => {
@@ -144,7 +145,10 @@ router.get('/users/:id', (req, res) => {
 
 	User.findOne({id:req.params.id})
 	.populate('purchases')
-	.populate('products')
+	.populate('products')//based on seller
+	.populate({
+		path:'receivedReviews',
+		populate: 'product'})
 	.populate('reviews')
 	.populate({
 		path:'sold',
