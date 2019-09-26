@@ -15,7 +15,7 @@ const ProductSchema = new Schema(
     seller_id:Number,
     purchaser_id:Number,
     seller_id:Number,
-
+    deleted_at:Number,
   },
   { 
   	timestamps: true,

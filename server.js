@@ -38,7 +38,7 @@ router.get('/testing', (req, res) => {
 //===products===
 router.get('/products', (req, res) => {
 
-	Product.find()
+	Product.find({deleted_at: null})
 	.populate({
 		path:'review',
 		populate:'user'
@@ -51,7 +51,8 @@ router.get('/products', (req, res) => {
 
 router.get('/products/:id', (req, res) => {
 
-	Product.findOne({id:req.params.id})
+	Product.findOne({id:req.params.id,deleted_at: null })
+
 	.populate({
 		path:'review',
 		populate:'user'
@@ -133,7 +134,8 @@ router.get('/categories/:name', (req, res) => {
 //===user===
 router.get('/users', (req, res) => {
 
-	User.find()
+	User.find({deleted_at: null })
+	
 	.then((users) => {
 	    return res.json(users);
 	});
@@ -190,10 +192,26 @@ router.post('/users', (req, res) => {
 
 router.delete('/users/:id', (req, res) => {
 
-	User.deleteOne({ id: req.params.id })
-	.then(() => {
-		return res.json('deleted');
-	});
+	// User.deleteOne({ id: req.params.id })
+	// .then(() => {
+	// 	return res.json('deleted');
+	// });
+
+	User.findOne({id:req.params.id})
+	.then((user) => {
+
+		user.deleted_at = Date.now()
+		return user.save()	
+	})
+	.then((user) => {
+
+		return Product.updateMany({ seller_id: user.id }, { deleted_at: Date.now() })
+	})
+	.then((bla) => {
+
+		console.log(bla)
+		return res.json(bla.nModified);
+	});	
 });
 
 router.put('/users/:id', (req, res) => {
@@ -212,7 +230,7 @@ router.put('/users/:id', (req, res) => {
 
 router.post('/authenticate', (req, res) => {
 	var {username,password} = req.body;
-	var credential = {username,password}
+	var credential = {username,password,deleted_at:null}
 	User.findOne(credential)
 	.then((user) => {
 	    return res.json(user);
