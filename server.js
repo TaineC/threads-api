@@ -71,7 +71,6 @@ router.post('/products', (req, res) => {
 	product.id = Date.now();
 	
 	var data = req.body;
-	//console.log(data);
 	Object.assign(product,data);
 	
 	product.save()
@@ -102,6 +101,7 @@ router.put('/products/:id', (req, res) => {
 	});	
 
 });
+
 //===category===
 router.get('/categories', (req, res) => {
 
@@ -113,17 +113,6 @@ router.get('/categories', (req, res) => {
 
 })
 
-// router.get('/categories/:id', (req, res) => {
-
-// 	Category.findOne({id:req.params.id})
-// 	.populate('products')
-// 	.then((category) => {
-
-// 	    return res.json(category);
-// 	});
-
-// })
-
 router.get('/categories/:name', (req, res) => {
 
 	Category.findOne({name:req.params.name})
@@ -134,6 +123,7 @@ router.get('/categories/:name', (req, res) => {
 	});
 
 })
+
 //===user===
 router.get('/users', (req, res) => {
 
@@ -168,17 +158,6 @@ router.get('/users/:id', (req, res) => {
 	});
 })
 
-// router.get('/users/:id/products', (req, res) => {
-
-
-// 	Product.find({user_id:req.params.id})
-// 	.populate('Products')
-// 	.then((products) => {
-// 	    return res.json(products);
-// 	});
-
-// })
-
 router.post('/users', (req, res) => {
 
 	var user = new User();
@@ -194,11 +173,6 @@ router.post('/users', (req, res) => {
 });
 
 router.delete('/users/:id', (req, res) => {
-
-	// User.deleteOne({ id: req.params.id })
-	// .then(() => {
-	// 	return res.json('deleted');
-	// });
 
 	User.findOne({id:req.params.id})
 	.then((user) => {
@@ -255,11 +229,7 @@ router.post('/upload', (req, res) => {
 });
 
 //=== multiple photo upload ===
-
 router.post('/uploads', (req, res) => {
-
-	
-
 
 	if(req.files){
 		var files = Object.values(req.files)
@@ -267,7 +237,6 @@ router.post('/uploads', (req, res) => {
 		uploadedFiles = Array.isArray(uploadedFiles) ? uploadedFiles : [uploadedFiles] //turning a single file to an array
 
 		var promises = []
-
 
 		for(let i=0;i<uploadedFiles.length;i++){
 			let uploadedFile = uploadedFiles[i]
@@ -293,8 +262,6 @@ router.post('/uploads', (req, res) => {
 	}else{
 		res.send([])
 	}
-	
-	
 });
 
 
